@@ -10,12 +10,12 @@ int main() {
     char entrada[100];
     int i, j;
 
-    printf("\n===INGRESE LAS ASIGNATURAS===\n");
+    printf("Ingrese las asignaturas\n");
     for (j = 0; j < asignaturas; j++) {
         int valido;
         do {
             valido = 1;
-            printf("Ingrese el nombre de la asignatura %d: ", j + 1);
+            printf("Asignatura #%d: ", j + 1);
             fgets(asignaturasNombres[j], 50, stdin);
 
             int largo = 0;
@@ -28,27 +28,19 @@ int main() {
             }
 
             if (largo == 0) {
-                printf("El nombre no puede estar vacío\n");
+                printf("El nombre no puede estar vacío \n");
                 valido = 0;
                 continue;
             }
 
-            for (int k = 0; asignaturasNombres[j][k] != '\0'; k++) {
-                if (asignaturasNombres[j][k] >= '0' && asignaturasNombres[j][k] <= '9') {
-                    printf("El nombre no debe contener números\n");
-                    valido = 0;
-                    break;
-                }
-            }
         } while (!valido);
     }
-      printf("\n===Ingrese los nombres de los estudiantes===\n");
-
+    printf("\nIngrese los nombres de los estudiantes\n");
     for (i = 0; i < estudiantes; i++) {
         int valido;
         do {
             valido = 1;
-            printf("\nIngrese el nombre del estudiante %d: ", i + 1);
+            printf("\nEstudiante #%d: ", i + 1);
             fgets(estudiantesNombres[i], 50, stdin);
 
             int largo = 0;
@@ -68,7 +60,7 @@ int main() {
 
             for (int k = 0; estudiantesNombres[i][k] != '\0'; k++) {
                 if (estudiantesNombres[i][k] >= '0' && estudiantesNombres[i][k] <= '9') {
-                    printf("El nombre no debe contener números\n");
+                    printf("El nombre no puede contener números\n");
                     valido = 0;
                     break;
                 }
@@ -79,7 +71,7 @@ int main() {
             float nota;
             int validoNota = 0;
             do {
-                printf("  Ingrese calificación en %s: ", asignaturasNombres[j]);
+                printf("  Ingrese la calificación para la asignatura %s: ", asignaturasNombres[j]);
                 fgets(entrada, sizeof(entrada), stdin);
 
                 int esNumero = 1;
@@ -95,6 +87,20 @@ int main() {
                         break;
                     }
                 }
+                     int largo = 0;
+            for (int k = 0; estudiantesNombres[i][k] != '\0'; k++) {
+                if (estudiantesNombres[i][k] == '\n') {
+                    estudiantesNombres[i][k] = '\0';
+                    break;
+                }
+                largo++;
+            }
+
+            if (largo == 0) {
+                printf("El nombre no puede estar vacío\n");
+                valido = 0;
+                continue;
+            }
 
                 if (esNumero) {
                     sscanf(entrada, "%f", &nota);
@@ -102,24 +108,25 @@ int main() {
                         calificaciones[i][j] = nota;
                         validoNota = 1;
                     } else {
-                        printf("La nota debe estar entre 0 y 10\n");
+                        printf("Debe estar entre 0 y 10\n");
                     }
                 } else {
-                    printf("Entrada inválida solo se permiten números\n");
+                    printf("Solo se permiten números\n");
                 }
             } while (!validoNota);
         }
     }
 
+
     char opcion;
     do {
-        printf("\n=============== MENÚ DE OPCIONES ===============\n");
-        printf("1. Promedios por estudiante\n");
-        printf("2. Aprobados y reprobados por asignatura\n");
-        printf("3. Mayor y menor nota por asignatura\n");
-        printf("4. Aprobados y reprobados por estudiante\n");
-        printf("5. Mayor y menor nota por estudiante\n");
-        printf("6. Promedio por asignatura\n");
+        printf("\nMENÚ DE OPCIONES\n");
+        printf("1. Ver promedios por estudiante\n");
+        printf("2. Ver aprobados y reprobados por asignatura\n");
+        printf("3. Ver mayor y menor nota por asignatura\n");
+        printf("4. Ver aprobados y reprobados por estudiante\n");
+        printf("5. Ver mayor y menor nota por estudiante\n");
+        printf("6. Ver promedio por asignatura\n");
         printf("7. Salir\n");
         printf("Seleccione una opción: ");
         fgets(entrada, sizeof(entrada), stdin);
@@ -127,24 +134,24 @@ int main() {
 
         switch (opcion) {
             case '1':
-                printf("\n--- PROMEDIOS POR ESTUDIANTE ---\n");
+                printf("\nPromedios por estudiante\n");
                 printf("%-20s", "Estudiante");
-                for (j = 0; j < asignaturas; j++) printf("%-15s", asignaturasNombres[j]);
-                printf("%-10s\n", "Promedio");
+                for (j = 0; j < asignaturas; j++) printf("%-20s", asignaturasNombres[j]);
+                printf("%-15s\n", "Promedio");
                 for (i = 0; i < estudiantes; i++) {
                     float suma = 0;
                     printf("%-20s", estudiantesNombres[i]);
                     for (j = 0; j < asignaturas; j++) {
-                        printf("%-15.2f", calificaciones[i][j]);
+                        printf("%-20.2f", calificaciones[i][j]);
                         suma += calificaciones[i][j];
                     }
                     promedios[i] = suma / asignaturas;
-                    printf("%-10.2f\n", promedios[i]);
+                    printf("%-15.2f\n", promedios[i]);
                 }
                 break;
 
             case '2':
-                printf("\n--- APROBADOS Y REPROBADOS POR ASIGNATURA ---\n");
+                printf("\nAprobados y Reprobados por Asignatura\n");
                 for (j = 0; j < asignaturas; j++) {
                     int aprob = 0, reprob = 0;
                     for (i = 0; i < estudiantes; i++) {
@@ -158,7 +165,7 @@ int main() {
                 break;
 
             case '3':
-                printf("\n--- MAYOR Y MENOR NOTA POR ASIGNATURA ---\n");
+                printf("\nMayor y Menor Nota por Asignatura\n");
                 for (j = 0; j < asignaturas; j++) {
                     float mayor = calificaciones[0][j], menor = calificaciones[0][j];
                     for (i = 1; i < estudiantes; i++) {
@@ -170,7 +177,7 @@ int main() {
                 break;
 
             case '4':
-                printf("\n--- APROBADOS Y REPROBADOS POR ESTUDIANTE ---\n");
+                printf("\nAprobados y Reprobados por Estudiante\n");
                 for (i = 0; i < estudiantes; i++) {
                     int aprob = 0, reprob = 0;
                     for (j = 0; j < asignaturas; j++) {
@@ -184,7 +191,7 @@ int main() {
                 break;
 
             case '5':
-                printf("\n--- MAYOR Y MENOR NOTA POR ESTUDIANTE ---\n");
+                printf("\nMayor y Menor Nota por Estudiante\n");
                 for (i = 0; i < estudiantes; i++) {
                     float mayor = calificaciones[i][0], menor = calificaciones[i][0];
                     for (j = 1; j < asignaturas; j++) {
@@ -194,8 +201,9 @@ int main() {
                     printf("%s: Mayor nota: %.2f, Menor nota: %.2f\n", estudiantesNombres[i], mayor, menor);
                 }
                 break;
+
             case '6':
-                printf("\n--- PROMEDIO POR ASIGNATURA ---\n");
+                printf("\nPromedio por Asignatura\n");
                 for (j = 0; j < asignaturas; j++) {
                     float suma = 0;
                     for (i = 0; i < estudiantes; i++) {
@@ -206,13 +214,12 @@ int main() {
                 }
                 break;
 
-
             case '7':
-                printf("Saliendo del programa\n");
+                printf("Fin del programa\n");
                 break;
 
             default:
-                printf("Opción inválida intenta de nuevo.\n");
+                printf("Seleccione una opción del 1 al 7\n");
         }
     } while (opcion != '7');
 
